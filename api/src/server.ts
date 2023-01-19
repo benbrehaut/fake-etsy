@@ -4,33 +4,39 @@ import logger from 'koa-logger';
 import bodyParser from 'koa-bodyparser';
 import Router from '@koa/router';
 
-const app = new Koa();
-const router = new Router();
-const PORT = process.env.PORT || 8000;
+import { ping } from './routes/ping';
 
-app.use(bodyParser());
+const server = async () => {
+  const app = new Koa();
+  const router = new Router();
+  const PORT = process.env.PORT || 8000;
 
-app.use(
-  cors({
-    origin: '*',
-  })
-);
+  const pingRoutes = await ping();
 
-app.use(logger());
-app.use(router.routes()).use(router.allowedMethods());
+  app.use(bodyParser());
 
-router.get('/ping', (ctx) => {
-  ctx.body = 'pong';
-});
+  app.use(
+    cors({
+      origin: '*',
+    })
+  );
 
-const server = app
-  .listen(PORT, async () => {
-    // eslint-disable-next-line no-console
-    console.log(`Server started on ${PORT}`);
-  })
-  .on('error', async (error: Error) => {
-    // eslint-disable-next-line no-console
-    console.log(`There was an error: ${error}`);
-  });
+  app.use(logger());
+  app.use(router.routes()).use(router.allowedMethods());
+
+  app.use(pingRoutes.routes());
+
+  app
+    .listen(PORT, async () => {
+      // eslint-disable-next-line no-console
+      console.log(`Server started on ${PORT}`);
+    })
+    .on('error', async (error: Error) => {
+      // eslint-disable-next-line no-console
+      console.log(`There was an error: ${error}`);
+    });
+};
+
+server().catch((error) => console.log(`Issue starting server: ${error}`));
 
 export { server };
