@@ -1,0 +1,14 @@
+version: '3.4'
+services:
+  web:
+    build:
+      context: .
+      target: local
+    ports:
+      - 8000
+    volumes:
+      - /app/node_modules
+      - .:/app
+    command: yarn dev
+    environment:
+      - APPS=

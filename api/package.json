@@ -23,6 +23,8 @@
     "typescript": "*"
   },
   "scripts": {
+    "build": "yarn clean && tsc",
+    "start": "node dist/index.js",
     "watch:ts": "tsc -w",
     "watch:node": "nodemon dist/index.js",
     "parallel": "yarn clean && concurrently --prefix-colors blue,cyan --names ts,server",
