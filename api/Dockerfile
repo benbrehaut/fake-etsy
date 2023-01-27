@@ -1,32 +1,3 @@
-# # =======
-# # BASE
-# # =======
-FROM node:16-alpine as base
-
-# # ========
-# # BUILD
-# # ========
-# FROM base as build
-# WORKDIR /app
-
-# COPY package.json ./
-# COPY tsconfig.json ./
-# RUN yarn install --production=true
-
-# COPY . .
-
-# # ========
-# # FINAL
-# # ========
-# FROM base
-# WORKDIR /app
-
-# ENV NODE_ENV=production
-# COPY --from=build /app/dist ./dist
-# COPY --from=build /app/node_modules ./node_modules
-
-# # CMD ["yarn", "start"]
-
 FROM node:16-alpine as local
 
 WORKDIR /app

@@ -1,11 +1,11 @@
 version: '3.4'
 services:
-  web:
+  fake-etsy-api:
     build:
       context: .
       target: local
     ports:
-      - 8000
+      - 8000-8000:8000-8000
     volumes:
       - /app/node_modules
       - .:/app
