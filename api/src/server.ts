@@ -4,6 +4,7 @@ import logger from 'koa-logger';
 import bodyParser from 'koa-bodyparser';
 import Router from '@koa/router';
 
+import { LogMessage, MessageType } from './logger';
 import { ping } from './routes/ping';
 
 const server = async () => {
@@ -28,15 +29,13 @@ const server = async () => {
 
   app
     .listen(PORT, async () => {
-      // eslint-disable-next-line no-console
-      console.log(`Server started on ${PORT}`);
+      LogMessage({ type: MessageType.Log, message: `Server started on ${PORT}` });
     })
     .on('error', async (error: Error) => {
-      // eslint-disable-next-line no-console
-      console.log(`There was an error: ${error}`);
+      LogMessage({ type: MessageType.Error, message: `There was an error: ${error}` });
     });
 };
 
-server().catch((error) => console.log(`Issue starting server: ${error}`));
+server().catch((error) => LogMessage({ type: MessageType.Error, message: `Issues starting server: ${error}` }));
 
 export { server };
